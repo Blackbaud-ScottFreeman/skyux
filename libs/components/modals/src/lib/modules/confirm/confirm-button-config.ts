@@ -1,9 +1,9 @@
-export interface SkyConfirmButtonConfig {
+export interface SkyConfirmButtonConfig<TAction extends string = string> {
   /**
    * The identifier to return when users select the button to close the
    * dialog. This is useful to determine which button users select.
    */
-  action: string;
+  action: TAction;
   /**
    * The label for the button.
    */

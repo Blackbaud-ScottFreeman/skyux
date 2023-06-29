@@ -8,6 +8,7 @@ import { SkyConfirmCloseEventArgs } from './confirm-closed-event-args';
 import { SkyConfirmConfig } from './confirm-config';
 import { SKY_CONFIRM_CONFIG } from './confirm-config-token';
 import { SkyConfirmInstance } from './confirm-instance';
+import { SkyConfirmType } from './confirm-type';
 import { SkyConfirmComponent } from './confirm.component';
 
 /**
@@ -30,7 +31,29 @@ export class SkyConfirmService {
    * Opens a dialog using the specified options.
    * @param config Specifies configuration options for the dialog.
    */
-  public open(config: SkyConfirmConfig): SkyConfirmInstance {
+  public open<TAction extends string>(
+    config: SkyConfirmConfig<TAction> & { type: SkyConfirmType.OK | undefined }
+  ): SkyConfirmInstance<'ok'>;
+
+  public open<TAction extends string>(
+    config: SkyConfirmConfig<TAction> & { type: SkyConfirmType.YesCancel }
+  ): SkyConfirmInstance<'yes' | 'cancel'>;
+
+  public open<TAction extends string>(
+    config: SkyConfirmConfig<TAction> & { type: SkyConfirmType.YesNoCancel }
+  ): SkyConfirmInstance<'yes' | 'no' | 'cancel'>;
+
+  public open<TAction extends string>(
+    config: SkyConfirmConfig<TAction> & { type: SkyConfirmType.Custom }
+  ): SkyConfirmInstance<TAction>;
+
+  public open<TAction extends string>(
+    config: SkyConfirmConfig<TAction>
+  ): SkyConfirmInstance<TAction>;
+
+  public open<TAction extends string>(
+    config: SkyConfirmConfig<TAction>
+  ): SkyConfirmInstance<TAction> {
     const modalInstance: SkyModalInstance = this.#modalService.open(
       SkyConfirmComponent,
       {
@@ -43,10 +66,10 @@ export class SkyConfirmService {
       }
     );
 
-    const confirmInstance = new SkyConfirmInstance();
+    const confirmInstance = new SkyConfirmInstance<TAction>();
 
     modalInstance.closed.subscribe((args: SkyModalCloseArgs) => {
-      let result: SkyConfirmCloseEventArgs = args.data;
+      let result: SkyConfirmCloseEventArgs<TAction> = args.data;
 
       // The modal was closed using the ESC key.
       if (result === undefined) {

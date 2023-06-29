@@ -1,7 +1,7 @@
 import { SkyConfirmButtonConfig } from './confirm-button-config';
 import { SkyConfirmType } from './confirm-type';
 
-export interface SkyConfirmConfig {
+export interface SkyConfirmConfig<TAction extends string = string> {
   /**
    * The message to display in bold at the top of the dialog.
    * @required
@@ -14,7 +14,7 @@ export interface SkyConfirmConfig {
   /**
    * The list of buttons to display when the `type` property is set to `SkyConfirmType.Custom`.
    */
-  buttons?: SkyConfirmButtonConfig[];
+  buttons?: SkyConfirmButtonConfig<TAction>[];
   /**
    * Whether to preserve whitespace and new lines inside the dialog.
    * @default false

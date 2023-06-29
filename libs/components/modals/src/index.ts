@@ -7,6 +7,7 @@ export * from './lib/modules/confirm/confirm-instance';
 export * from './lib/modules/confirm/confirm-type';
 export * from './lib/modules/confirm/confirm.module';
 export * from './lib/modules/confirm/confirm.service';
+export * from './lib/modules/confirm/create-confirm-button-configs';
 
 export * from './lib/modules/modal/modal-before-close-handler';
 export * from './lib/modules/modal/modal-close-args';
